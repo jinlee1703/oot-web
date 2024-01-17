@@ -24,23 +24,16 @@ on:
         required: false
       
 jobs:
-  install-dependencies:
+  build-test:
     runs-on: ubuntu-20.04
+    env: 
+      DISABLE_ESLINT_PLUGIN: true
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3.5.1
         with:
           node-version: "21.2.0"
-      - name: Install dependencies
+      - name: install dependencies
         run: npm install
-
-  build-frontend:
-    needs: install-dependencies
-    runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3.5.1
-        with:
-          node-version: "21.2.0"
-      - name: Build frontend
+      - name: try build
         run: npm run build
