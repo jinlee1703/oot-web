@@ -29,8 +29,6 @@ permissions:
 jobs:
   develop-deploy:
     runs-on: ubuntu-20.04
-    env:
-      IMAGE_TAG: ${{github.sha}}
   
     steps:
       # 1. Compare branch 코드 내려 받기
@@ -44,8 +42,8 @@ jobs:
         run: |
           echo "${{ secrets.ENVIRONMENT }}" > .env
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker build -t jinlee1703/oot-web:${{github.sha}} .
-          docker push jinlee1703/oot-web:${{github.sha}}
+          docker build -t jinlee1703/oot-web:latest .
+          docker push jinlee1703/oot-web:latest
   
       # 3. SSH ACTION을 통한 Run-Command (Docker 이미지 pull 후 docker-compose를 통한 실행)
       - name: deploy
@@ -58,5 +56,5 @@ jobs:
           script: |
             docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
             docker system prune -a -f
-            docker pull jinlee1703/oot-web:${{github.sha}}
+            docker pull jinlee1703/oot-web:latest
             docker-compose up -d
