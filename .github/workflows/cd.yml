@@ -44,8 +44,8 @@ jobs:
         run: |
           echo "${{ secrets.ENVIRONMENT }}" > .env
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker build -t jinlee1703/sportspie-web:${{github.sha}} .
-          docker push jinlee1703/sportspie-web:${{github.sha}}
+          docker build -t jinlee1703/oot-web:${{github.sha}} .
+          docker push jinlee1703/oot-web:${{github.sha}}
   
       # 3. SSH ACTION을 통한 Run-Command (Docker 이미지 pull 후 docker-compose를 통한 실행)
       - name: deploy
@@ -58,5 +58,5 @@ jobs:
           script: |
             docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
             docker system prune -a -f
-            docker pull jinlee1703/sportspie-web:${{github.sha}}
+            docker pull jinlee1703/oot-web:${{github.sha}}
             docker-compose up -d
